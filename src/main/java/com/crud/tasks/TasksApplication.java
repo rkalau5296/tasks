@@ -18,7 +18,7 @@ public class TasksApplication {
 		Long id =  taskDto.getId();
 		String title = taskDto.getTitle();
 		String content = taskDto.getContent();
-		System.out.println(id + "" + title + "" + content);
+		System.out.println(id + " " + title + " " + content);
 	}
 
 }
