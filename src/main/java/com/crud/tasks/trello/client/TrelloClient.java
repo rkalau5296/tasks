@@ -22,7 +22,7 @@ public class TrelloClient {
     @Value("${trello.app.token}")
     private String trelloToken;
     @Value("${trello.app.username}")
-    private String trelloUsernam;
+    private String trelloUsername;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -37,7 +37,7 @@ public class TrelloClient {
     }
 
     private URI urlBuilding(){
-        URI url = UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/rkalata/boards")
+        URI url = UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/" + trelloUsername + "/boards")
                 .queryParam("key", trelloAppKey)
                 .queryParam("token", trelloToken)
                 .queryParam("fields", "name,id").build().encode().toUri();
