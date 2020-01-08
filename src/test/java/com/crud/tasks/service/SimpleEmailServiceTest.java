@@ -23,12 +23,29 @@ public class SimpleEmailServiceTest {
     public void shouldSendEmail() {
 
         // Given
-        Mail mail = new Mail("test@test.pl", "Test", "test message");
+        Mail mail = new Mail("test@test.pl", "Test", "test message", "test CC");
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
+        mailMessage.setCc(mail.getToCc());
+
+        // When
+        simpleEmailService.send(mail);
+
+        // Then
+        verify(javaMailSender, times(1)).send(mailMessage);
+    }
+    @Test
+    public void shouldSendEmailWithEmptyCC(){
+        Mail mail = new Mail("test@test.pl", "Test", "test message", "");
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(mail.getMailTo());
+        mailMessage.setSubject(mail.getSubject());
+        mailMessage.setText(mail.getMessage());
+        mailMessage.setCc(mail.getToCc());
 
         // When
         simpleEmailService.send(mail);
