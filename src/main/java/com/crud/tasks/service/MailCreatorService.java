@@ -38,4 +38,24 @@ public class MailCreatorService {
         context.setVariable("application_functionality", functionality);
         return templateEngine.process("mail/create-trello-card-mail", context);
     }
+
+    public String trelloCardQunatityEmail(String message) {
+        List<String> functionalities = new ArrayList<>();
+        functionalities.add("You can manage your tasks yourself");
+        functionalities.add("Provides conection with Trello Account and others");
+        functionalities.add("Application allows sending tasks to Trello. Yeah.");
+
+        Context context = new Context();
+        context.setVariable("message", message);
+        context.setVariable("tasks_url", "http://localhost:8888/crud");
+        context.setVariable("button", "Visit website");
+        context.setVariable("admin_name", adminConfig);
+        context.setVariable("goodbye_message", "Bye, bye, bye. See you next time.");
+        context.setVariable("company_details", "This is a new address to nowhere. Neverland 1 CA 0101 US.");
+        context.setVariable("preview_message", "Preview message to noone.");
+        context.setVariable("show_button", false);
+        context.setVariable("is_friend", false);
+        context.setVariable("application_functionality", functionalities);
+        return templateEngine.process("mail/inform-quntity-trello-card-mail", context);
+    }
 }

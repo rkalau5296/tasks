@@ -32,16 +32,26 @@ public class SimpleEmailService {
         }
     }
 
+    public void sendQunatityTask(final Mail mail){
+        LOGGER.info("Starting email preparation...");
+        try {
+            javaMailSender.send(createMimInformMessage(mail));
+            LOGGER.info("Email has been sent.");
+        } catch (MailException e) {
+            LOGGER.error("Failed to process email sending: ", e.getMessage(), e);
+        }
+    }
+
     private SimpleMailMessage createMailMessage (final Mail mail) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
-        mailMessage.setCc(mail.getToCc());
-        if(mail.getToCc().isEmpty())
-        {
-            LOGGER.info("Empty. Additional receiver has not been added.");
-        }
+        //mailMessage.setCc(mail.getToCc());
+//        if(mail.getToCc().isEmpty())
+//        {
+//            LOGGER.info("Empty. Additional receiver has not been added.");
+//        }
         return mailMessage;
     }
 
@@ -51,6 +61,15 @@ public class SimpleEmailService {
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
             messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
+        };
+    }
+
+    private MimeMessagePreparator createMimInformMessage (final Mail mail) {
+        return mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setTo(mail.getMailTo());
+            messageHelper.setSubject(mail.getSubject());
+            messageHelper.setText(mailCreatorService.trelloCardQunatityEmail(mail.getMessage()), true);
         };
     }
 
