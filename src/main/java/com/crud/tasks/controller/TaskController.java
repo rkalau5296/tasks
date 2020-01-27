@@ -33,6 +33,7 @@ public class TaskController {
     public void deleteTask (Long taskId){
         service.deleteById(taskId);
     }
+
     @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
     public TaskDto updateTask (@RequestBody TaskDto taskDto){
         return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
@@ -40,7 +41,7 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.POST, value = "createTask", consumes = APPLICATION_JSON_VALUE)
     public void createTask (@RequestBody TaskDto taskDto) {
-         service.saveTask(taskMapper.mapToTask(taskDto));
+        service.saveTask(taskMapper.mapToTask(taskDto));
     }
 
 }

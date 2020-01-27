@@ -19,6 +19,16 @@ public class TrelloController {
     private TrelloFacade trelloFacade;
 
     @RequestMapping(method = RequestMethod.GET, value = "/getTrelloBoards")
+    public List<TrelloBoardDto> getTrelloBoards(){
+        return trelloFacade.fetchTrelloBoards();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/createTrelloCard")
+    public CreatedTrelloCardDto createTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
+        return trelloFacade.createCard(trelloCardDto);
+    }
+
+
 //    public void getTrelloBoards() {
 //
 //        List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
@@ -34,12 +44,7 @@ public class TrelloController {
 //                    System.out.println(trelloList.getName() + " - " + trelloList.getId() + " - " + trelloList.isClosed()));
 //        });
 //    }
-    public List<TrelloBoardDto> getTrelloBoards(){
-        return trelloFacade.fetchTrelloBoards();
-    }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/createTrelloCard")
-    public CreatedTrelloCardDto createTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
-        return trelloFacade.createCard(trelloCardDto);
-    }
+
+
 }
