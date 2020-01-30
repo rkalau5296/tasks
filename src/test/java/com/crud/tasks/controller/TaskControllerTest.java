@@ -23,8 +23,8 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -55,6 +55,7 @@ public class TaskControllerTest {
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].title", is("Task")))
                 .andExpect(jsonPath("$[0].content", is("First task desc")));
+        verify(taskMapper, times(1)).mapToTaskDtoList(service.getAllTasks());
     }
 
     @Test
@@ -70,6 +71,7 @@ public class TaskControllerTest {
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is("Task")))
                 .andExpect(jsonPath("$.content", is("First task desc")));
+        verify(taskMapper, times(1)).mapToTaskDto(service.getTaskById(1L));
     }
 
     @Test
@@ -89,6 +91,7 @@ public class TaskControllerTest {
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is("Name")))
                 .andExpect(jsonPath("$.content", is("Desc")));
+        verify(service, times(1)).saveTask(taskMapper.mapToTask(taskDto));
     }
 
     @Test
@@ -107,21 +110,19 @@ public class TaskControllerTest {
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is("NameUpdated")))
                 .andExpect(jsonPath("$.content", is("DescUpdated")));
+        verify(taskMapper, times(1)).mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskUpdated)));
     }
     @Test
     public void shouldDeleteTask() throws Exception {
         //Given & When & Then
-//        mockMvc.perform(delete("/v1/task/deleteTask")
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk());
         List<TaskDto> listTasksDto = new ArrayList<>();
         listTasksDto.add(new TaskDto(1L, "Task", "First task desc"));
-        mockMvc.perform(delete("/v1/task/deleteTask")
-                .param("id", "1")
+
+        mockMvc.perform(delete("/v1/task/deleteTask?taskId=1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-
+        verify(service,  times(1)).deleteById(1L);
     }
 
 }
