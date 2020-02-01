@@ -31,11 +31,28 @@ public class SimpleEmailService {
             LOGGER.error("Failed to process email sending: ", e.getMessage(), e);
         }
     }
-
+    public void sendCreateMailMessage(final Mail mail){
+        LOGGER.info("Starting email preparation...");
+        try {
+            javaMailSender.send(createMailMessage(mail));
+            LOGGER.info("Email has been sent.");
+        } catch (MailException e) {
+            LOGGER.error("Failed to process email sending: ", e.getMessage(), e);
+        }
+    }
     public void sendQunatityTask(final Mail mail){
         LOGGER.info("Starting email preparation...");
         try {
             javaMailSender.send(createMimInformMessage(mail));
+            LOGGER.info("Email has been sent.");
+        } catch (MailException e) {
+            LOGGER.error("Failed to process email sending: ", e.getMessage(), e);
+        }
+    }
+    public void sendMailMessaggeQunatityTask(final Mail mail){
+        LOGGER.info("Starting email preparation...");
+        try {
+            javaMailSender.send(createMailMessage(mail));
             LOGGER.info("Email has been sent.");
         } catch (MailException e) {
             LOGGER.error("Failed to process email sending: ", e.getMessage(), e);

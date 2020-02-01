@@ -20,20 +20,14 @@ public class SimpleEmailServiceTest {
 
     @InjectMocks
     private SimpleEmailService simpleEmailService;
+
     @Mock
     private JavaMailSender javaMailSender;
 
     @Test
     public void shouldSendEmail() {
-
         // Given
         Mail mail = new Mail("test@test.pl", "Test", "test message");
-
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(mail.getMailTo());
-        mailMessage.setSubject(mail.getSubject());
-        mailMessage.setText(mail.getMessage());
-        //mailMessage.setCc(mail.getToCc());
 
         // When
         simpleEmailService.send(mail);
@@ -41,21 +35,63 @@ public class SimpleEmailServiceTest {
         // Then
         verify(javaMailSender, times(1)).send(any(MimeMessagePreparator.class));
     }
+
     @Test
     public void shouldSendEmailWithEmptyCC(){
+        // Given
         Mail mail = new Mail("test@test.pl", "Test", "test message");
-
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(mail.getMailTo());
-        mailMessage.setSubject(mail.getSubject());
-        mailMessage.setText(mail.getMessage());
-        //mailMessage.setCc(mail.getToCc());
 
         // When
         simpleEmailService.send(mail);
 
         // Then
         verify(javaMailSender, times(1)).send(any(MimeMessagePreparator.class));
+    }
 
+    @Test
+    public void shouldSendEmailQunatityTask(){
+        // Given
+        Mail mail = new Mail("test@test.pl", "Test", "test message");
+
+        // When
+        simpleEmailService.sendQunatityTask(mail);
+
+        // Then
+        verify(javaMailSender, times(1)).send(any(MimeMessagePreparator.class));
+    }
+
+    @Test
+    public void shouldSendCreateMailMessage(){
+        // Given
+        Mail mail = new Mail("test@test.pl", "Test", "test message");
+
+        // When
+        simpleEmailService.sendCreateMailMessage(mail);
+
+        // Then
+        verify(javaMailSender, times(1)).send(any(SimpleMailMessage.class));
+    }
+
+    @Test
+    public void shouldSendMailMessaggeQunatityTask(){
+        // Given
+        Mail mail = new Mail("test@test.pl", "Test", "test message");
+
+        // When
+        simpleEmailService.sendMailMessaggeQunatityTask(mail);
+
+        // Then
+        verify(javaMailSender, times(1)).send(any(SimpleMailMessage.class));
+    }
+    @Test
+    public void shouldSentEmailScheduler(){
+        // Given
+        Mail mail = new Mail("test@test.pl", "Test", "test message");
+
+        // When
+        simpleEmailService.sendMailMessaggeQunatityTask(mail);
+
+        // Then
+        verify(javaMailSender, times(1)).send(any(SimpleMailMessage.class));
     }
 }
