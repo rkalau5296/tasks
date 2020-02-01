@@ -1,11 +1,11 @@
 package com.crud.tasks.trello.mapper;
 
 import com.crud.tasks.domain.*;
+import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.mapper.TrelloMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +22,54 @@ public class MapperTestSuite {
 
     @Autowired
     TrelloMapper trelloMapper;
+
+    @Autowired
+    TaskMapper taskMapper;
+    @Test
+    public void mapToTaskDtoTest() {
+        //Given
+        Task task = new Task(1L, "TaskTitle", "TaskContent");
+
+        //When
+        TaskDto taskDto = taskMapper.mapToTaskDto(task);
+
+        //Then
+        assertEquals(task.getId(), taskDto.getId());
+        assertEquals(task.getTitle(), taskDto.getTitle());
+        assertEquals(task.getContent(), taskDto.getContent());
+
+    }
+    @Test
+    public void mapToTaskTest() {
+        //Given
+        TaskDto taskDto = new TaskDto(1L, "TaskDtoTitle", "TaskDtoContent");
+
+        //When
+        Task task = taskMapper.mapToTask(taskDto);
+
+        //Then
+        assertEquals(taskDto.getId(), task.getId());
+        assertEquals(taskDto.getTitle(), task.getTitle());
+        assertEquals(taskDto.getContent(), task.getContent());
+
+    }
+    @Test
+    public void mapToTaskDtoListTest() {
+        //Given
+        List<TaskDto> taskDtoList  = new ArrayList<>();
+        taskDtoList.add(new TaskDto(1L, "TaskDtoTitle", "TaskDtoContent"));
+
+        List<Task> taskList = new ArrayList<>();
+        taskList.add(new Task(1L, "TaskTitle", "TaskContent"));
+
+        //When
+        List<TaskDto> newTaskDtoList = taskMapper.mapToTaskDtoList(taskList);
+
+        //Then
+        assertEquals(taskList.get(0).getId(), newTaskDtoList.get(0).getId());
+        assertEquals(taskList.get(0).getTitle(), newTaskDtoList.get(0).getTitle());
+        assertEquals(taskList.get(0).getContent(), newTaskDtoList.get(0).getContent());
+    }
 
     @Test
     public void mapToBoardsTest(){
