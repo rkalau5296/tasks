@@ -66,7 +66,7 @@ public class TaskControllerTest {
         when(taskMapper.mapToTaskDto(service.getTaskById(1L))).thenReturn(taskDto);
 
         //When & Then
-        mockMvc.perform(get("/v1/tasks/taskId=1").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.title", is("Task")))
@@ -118,7 +118,7 @@ public class TaskControllerTest {
         List<TaskDto> listTasksDto = new ArrayList<>();
         listTasksDto.add(new TaskDto(1L, "Task", "First task desc"));
 
-        mockMvc.perform(delete("/v1/tasks/taskId=1")
+        mockMvc.perform(delete("/v1/tasks/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

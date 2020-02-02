@@ -26,12 +26,12 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/tasks/{taskId}")
-    public TaskDto getTask (Long taskId){
+    public TaskDto getTask (@PathVariable Long taskId) {
         return taskMapper.mapToTaskDto(service.getTaskById(taskId));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/tasks/{taskId}")
-    public void deleteTask (Long taskId){
+    public void deleteTask (@PathVariable Long taskId){
         service.deleteById(taskId);
     }
 
