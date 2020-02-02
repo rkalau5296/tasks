@@ -12,7 +12,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("/v1/task")
+@RequestMapping("/v1")
 @CrossOrigin("*")
 public class TaskController {
     @Autowired
@@ -20,27 +20,27 @@ public class TaskController {
     @Autowired
     private TaskMapper taskMapper;
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTasks")
+    @RequestMapping(method = RequestMethod.GET, value = "/tasks")
     public List<TaskDto> getTasks() {
         return taskMapper.mapToTaskDtoList(service.getAllTasks());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTask")
+    @RequestMapping(method = RequestMethod.GET, value = "/tasks/{taskId}")
     public TaskDto getTask (Long taskId){
         return taskMapper.mapToTaskDto(service.getTaskById(taskId));
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/tasks/{taskId}")
     public void deleteTask (Long taskId){
         service.deleteById(taskId);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
+    @RequestMapping(method = RequestMethod.PUT, value = "/tasks")
     public TaskDto updateTask (@RequestBody TaskDto taskDto){
         return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createTask", consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, value = "/tasks", consumes = APPLICATION_JSON_VALUE)
     public Task createTask (@RequestBody TaskDto taskDto) {
         return service.saveTask(taskMapper.mapToTask(taskDto));
     }

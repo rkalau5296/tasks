@@ -38,4 +38,20 @@ public class DbServiceTests {
         assertEquals(tasks.get(0).getTitle(), taskList.get(0).getTitle());
         assertEquals(tasks.get(0).getContent(), taskList.get(0).getContent());
     }
+
+    @Test
+    public void saveTaskTest() {
+        //Given
+        Task task = new Task(1L, "title", "content");
+
+        //When
+        when(repository.save(task)).thenReturn(task);
+
+        //Then
+        Task taskDb = dbService.saveTask(task);
+
+        assertEquals(task.getId(), taskDb.getId());
+        assertEquals(task.getTitle(), taskDb.getTitle());
+        assertEquals(task.getContent(), taskDb.getContent());
+    }
 }
